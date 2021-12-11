@@ -1,9 +1,11 @@
 const menuLinks = Array.from(document.querySelectorAll('.menu__link'))
- 
+
+
 menuLinks.forEach (menuLink => {
+    const menuSub = menuLink.closest('.menu__item').querySelector('.menu_sub')
     menuLink.onclick = () => {
-        if (menuLink.closest('.menu__item').querySelector('.menu_sub') != null) {
-            menuLink.closest('.menu__item').querySelector('.menu_sub').classList.add('menu_active')
+        if (menuSub != null) {
+            menuSub.classList.toggle('menu_active')
             return false
     }
 }
