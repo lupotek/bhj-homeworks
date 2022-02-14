@@ -1,14 +1,18 @@
-let tooltip = document.createElement("div")
-tooltip.classList.add("tooltip")
-const stringsForTooltips = Array.from(document.querySelectorAll(".has-tooltip"))
+const strings = Array.from(document.getElementsByClassName("has-tooltip"))
 
-for (let string of stringsForTooltips) {
-    string.addEventListener("click", (evt) => {
-    string.appendChild(tooltip)
-    tooltip.innerText = evt.target.title
-    tooltip.classList.add("tooltip_active")
-    evt.preventDefault()
+strings.forEach((item) => {
+    item.insertAdjacentHTML('afterEnd', `<div class='tooltip'>${item.title}</div>`)
+    item.addEventListener('click', (evt) => {
+        const tooltip = item.nextElementSibling
+        const coordinates = item.getBoundingClientRect();
+    tooltip.style.left = coordinates.left + 'px';
+    tooltip.style.top = coordinates.bottom + 7 + 'px';
+        if (tooltip.classList.contains('tooltip_active')) {
+            tooltip.classList.remove('tooltip_active');
+        } else {
+            Array.from(document.querySelectorAll(".tooltip_active")).forEach((elem) => elem.classList.remove("tooltip_active"))
+            tooltip.classList.add('tooltip_active');
+            evt.preventDefault();
+           }
     })
-}
-
-
+})
