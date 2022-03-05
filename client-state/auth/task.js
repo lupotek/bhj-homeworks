@@ -3,6 +3,18 @@ const greetingPhrase = document.getElementById("welcome");
 const userId = document.getElementById("user_id");
 const form = document.getElementById("signin__form");
 const signin = document.getElementById("signin");
+const greetingUser = () => {
+    signin.classList.remove("signin_active");
+    greetingPhrase.classList.add("welcome_active");
+    userId.innerText = localStorage.userName
+}
+
+if (localStorage.userName) {
+    greetingUser();
+} else {
+    signin.classList.add("signin_active");
+}
+
 
 authButton.addEventListener("click", (evt) => {
     let formData = new FormData(form);
@@ -12,15 +24,12 @@ authButton.addEventListener("click", (evt) => {
     xhr.send(formData);
     xhr.onload = () => {
         let authData = JSON.parse(xhr.responseText);
-
         if (authData.success) {
             localStorage.userName = authData["user_id"];
-           signin.classList.remove("signin_active");
-           greetingPhrase.classList.add("welcome_active");
-           userId.innerText = localStorage.userName
+            greetingUser();
         } else {
             alert("Неверный логин/пароль");
-        }
+            }
     }
     evt.preventDefault();    
 })
